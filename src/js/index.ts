@@ -1,3 +1,8 @@
+interface IAddOn {
+  benefit: string
+  value: string
+}
+
 const nameField = document.querySelector(".nameField") as HTMLInputElement
 const emailField = document.querySelector(".emailField") as HTMLInputElement
 const phoneNumber = document.querySelector(".phoneNumber") as HTMLInputElement
@@ -13,9 +18,10 @@ const planIndicator = planSwitch?.querySelector(
   ".switch-indicator"
 ) as HTMLSpanElement
 
-let step = 1
-let planType = planIndicator?.classList.contains("month") ? "month" : "year"
-let planCardSelected = "arcade"
+const addOnsWrapper = document.querySelector(".add-ons-wrapper") as HTMLDivElement
+const addOnsCheckboxs = document.querySelectorAll(".add-on") as NodeList
+
+let step = 2
 
 let firstStepFields = {
   nameField: {
@@ -31,6 +37,14 @@ let firstStepFields = {
     error: false,
   },
 }
+
+let planType = planIndicator?.classList.contains("month") ? "month" : "year"
+let planCardSelected = {
+  plan: "arcade",
+  value: "$9/mo",
+}
+
+let addOnsSelected: IAddOn[] = []
 
 function toggleErrorColors(field: string, showError: boolean) {
   const fieldName = document.querySelector(`label[for=${field}]`) as HTMLInputElement
@@ -199,12 +213,17 @@ planSwitch?.addEventListener("click", () => {
 
 function changeActivePlanCard(planCard: HTMLButtonElement, planName: string) {
   planCard.addEventListener("click", () => {
-    planCardSelected = planName
+    const planValue = planCard.querySelector(".plan-info .plan-value")
+
+    planCardSelected = {
+      plan: planName,
+      value: planValue?.textContent as string,
+    }
 
     for (let card of planCardButtons) {
       const singleCard = card as HTMLButtonElement
 
-      if (singleCard.classList.contains(planCardSelected)) {
+      if (singleCard.classList.contains(planCardSelected.plan)) {
         singleCard.classList.add("active")
       } else {
         singleCard.classList.remove("active")
@@ -218,6 +237,49 @@ planCardButtons.forEach((card) => {
   const planName = cardButton.querySelector(".plan-name") as HTMLParagraphElement
 
   changeActivePlanCard(cardButton, planName.textContent!.toLowerCase())
+})
+
+function setActiveCheckboxPlan(
+  selectedValue: string,
+  optionElement: HTMLInputElement
+) {
+  const addOnMonthlyValue = optionElement.querySelector(
+    ".add-on-value"
+  ) as HTMLParagraphElement
+
+  const doesSelectedValueAlreadyExists = addOnsSelected.find(
+    (addOnSelected) => addOnSelected.benefit === selectedValue
+  )
+
+  if (doesSelectedValueAlreadyExists) {
+    const valueToRemove = addOnsSelected.indexOf(doesSelectedValueAlreadyExists)
+
+    addOnsSelected.splice(valueToRemove, 1)
+  } else {
+    addOnsSelected.push({
+      benefit: selectedValue,
+      value: addOnMonthlyValue.textContent as string,
+    })
+  }
+
+  const doesExistentBenefitHasSelectedValue = addOnsSelected.find(
+    (addOnSelected) => addOnSelected.benefit === selectedValue
+  )
+
+  if (doesExistentBenefitHasSelectedValue) {
+    optionElement.classList.add("checked")
+  } else {
+    optionElement.classList.remove("checked")
+  }
+}
+
+addOnsCheckboxs.forEach((option) => {
+  option.addEventListener("change", (e) => {
+    const optionElement = option as HTMLInputElement
+    const optionCheckbox = e.target as HTMLInputElement
+
+    setActiveCheckboxPlan(optionCheckbox.value, optionElement)
+  })
 })
 
 changeStepActive()

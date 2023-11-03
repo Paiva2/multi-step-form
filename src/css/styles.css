@@ -370,3 +370,68 @@ input.error {
 .switch-indicator.year {
   transform: translateX(15px);
 }
+
+.add-ons-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9375rem;
+}
+
+.add-on {
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+  border: 1px solid hsl(229, 24%, 87%);
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.9375rem 1.5625rem;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.add-on.checked {
+  border-color: hsl(243, 100%, 62%);
+  background-color: hsl(231, 100%, 99%);
+}
+
+.add-on:hover {
+  border-color: hsl(243, 100%, 62%);
+}
+
+.add-on-selection {
+  display: flex;
+  align-items: center;
+  gap: 0.9375rem;
+}
+
+.add-on-selection input {
+  accent-color: hsl(243, 100%, 62%);
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 8px;
+}
+
+.add-on-description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.add-on-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: hsl(213, 96%, 18%);
+}
+
+.add-on-benefit {
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  color: hsl(231, 11%, 63%);
+}
+
+.add-on-value {
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  color: hsl(243, 100%, 62%);
+}
