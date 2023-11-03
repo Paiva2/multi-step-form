@@ -1,27 +1,22 @@
-interface IAddOn {
-  benefit: string
-  value: string
-}
+import {
+  addOnsCheckboxs,
+  backButton,
+  changePlanButton,
+  confirmButton,
+  emailField,
+  getResumeWrapper,
+  nameField,
+  nextButton,
+  phoneNumber,
+  planCardButtons,
+  planIndicator,
+  planSwitch,
+} from "./globals/index.js"
+import { setErrorsIfTheresEmptyField } from "./utils/inputErrorHandling/index.js"
+import { setUpAddOnsResume } from "./utils/resume/index.js"
+import { setStepActive } from "./utils/stepControl/index.js"
 
-const nameField = document.querySelector(".nameField") as HTMLInputElement
-const emailField = document.querySelector(".emailField") as HTMLInputElement
-const phoneNumber = document.querySelector(".phoneNumber") as HTMLInputElement
-
-const nextButton = document.querySelector(".next-step-btn") as HTMLButtonElement
-const backButton = document.querySelector(".back-step") as HTMLButtonElement
-const confirmButton = document.querySelector(".confirm-btn") as HTMLButtonElement
-
-const planCardButtons = document.querySelectorAll(".plan-card") as NodeList
-
-const planSwitch = document.querySelector(".plan-switch-btn")
-const planIndicator = planSwitch?.querySelector(
-  ".switch-indicator"
-) as HTMLSpanElement
-
-const addOnsWrapper = document.querySelector(".add-ons-wrapper") as HTMLDivElement
-const addOnsCheckboxs = document.querySelectorAll(".add-on") as NodeList
-
-let step = 2
+let step = 0
 
 let firstStepFields = {
   nameField: {
@@ -39,6 +34,7 @@ let firstStepFields = {
 }
 
 let planType = planIndicator?.classList.contains("month") ? "month" : "year"
+
 let planCardSelected = {
   plan: "arcade",
   value: "$9/mo",
@@ -46,66 +42,58 @@ let planCardSelected = {
 
 let addOnsSelected: IAddOn[] = []
 
-function toggleErrorColors(field: string, showError: boolean) {
-  const fieldName = document.querySelector(`label[for=${field}]`) as HTMLInputElement
+function setUpResumePage() {
+  nextButton.style.display = "none"
+  confirmButton.style.display = "flex"
 
-  if (fieldName) {
-    const errorMessage = fieldName.querySelector(
-      ".form-label .error-label"
-    ) as HTMLSpanElement
+  const getAllAddOnsResume = document.querySelectorAll(".add-ons-selected-resume")
 
-    const errorInputColor = fieldName.querySelector(
-      `input.${field}`
-    ) as HTMLInputElement
+  const selectedPlan = document.querySelector(
+    ".selected-plan-name"
+  ) as HTMLParagraphElement
 
-    if (showError) {
-      errorInputColor.classList.add("error")
-      errorMessage.style.display = "flex"
-    } else {
-      errorInputColor.classList.remove("error")
-      errorMessage.style.display = "none"
-    }
+  const selectedPlanValue = document.querySelector(
+    ".selected-plan-value-resume"
+  ) as HTMLSpanElement
+
+  const totalResume = document.querySelector(".total-resume") as HTMLSpanElement
+
+  for (let addOnResume of getAllAddOnsResume) {
+    getResumeWrapper.removeChild(addOnResume)
+  }
+
+  const planSelectedValue = planCardSelected.value
+
+  const formatPlanSelectedValue = planCardSelected.value
+    .replace("+", "")
+    .replace("$", "")
+    .replace("/mo", "")
+    .replace("/yr", "")
+
+  const totalCalculation = addOnsSelected.reduce((acc, add) => {
+    return (acc += Number(
+      add.value.replace("+", "").replace("$", "").replace("/mo", "")
+    ))
+  }, 0)
+
+  totalResume.innerText = `$${totalCalculation + Number(formatPlanSelectedValue)}/${
+    planType === "month" ? "mo" : "year"
+  }`
+
+  selectedPlan.innerText = `${planCardSelected.plan} (${
+    planType === "month" ? "Monthly" : "Yearly"
+  })`
+
+  selectedPlanValue.innerText = `${planSelectedValue}`
+
+  for (let addOn of addOnsSelected) {
+    setUpAddOnsResume(addOn)
   }
 }
 
-function checkIfTheresAnyFieldWithError(stepSchema: any) {
-  let isThereAnyError: boolean
-
-  const stepSchemaKeysArr = Object.keys(stepSchema)
-
-  stepSchemaKeysArr.forEach((field) => {
-    if (stepSchema[field].error) {
-      toggleErrorColors(field, true)
-    } else {
-      toggleErrorColors(field, false)
-    }
-  })
-
-  isThereAnyError = stepSchemaKeysArr.some(
-    (field) => stepSchema[field].error && !stepSchema[field].value
-  )
-
-  return isThereAnyError
-}
-
-function setErrorsIfTheresEmptyField(stepSchema: any) {
-  const stepSchemaKeysArr = Object.keys(stepSchema)
-
-  stepSchemaKeysArr.forEach((field) => {
-    if (!stepSchema[field].value.length) {
-      stepSchema[field].error = true
-    } else {
-      stepSchema[field].error = false
-    }
-  })
-
-  return checkIfTheresAnyFieldWithError(stepSchema)
-}
-
 function changeStepActive() {
-  if (step > 2) {
-    nextButton.style.display = "none"
-    confirmButton.style.display = "flex"
+  if (step === 3) {
+    setUpResumePage()
   } else {
     nextButton.style.display = "flex"
     confirmButton.style.display = "none"
@@ -130,11 +118,36 @@ function changeStepActive() {
 
     case 3:
       setStepActive("four", "fourth-step")
+      break
+
+    case 4: {
+      setStepActive("fifth", "fifth-step")
+      const containLastStepActive = document.querySelector(
+        ".step-indicator-wrapper.four"
+      )
+
+      nextButton.style.display = "none"
+      confirmButton.style.display = "none"
+      backButton.style.display = "none"
+
+      containLastStepActive
+        ?.querySelector(".step-indicator")
+        ?.classList.add("step-active")
+      break
+    }
 
     default:
       return null
   }
 }
+
+confirmButton.addEventListener("click", (e: Event) => {
+  e.preventDefault()
+
+  step = 4
+
+  changeStepActive()
+})
 
 nextButton?.addEventListener("click", () => {
   firstStepFields = {
@@ -156,7 +169,7 @@ nextButton?.addEventListener("click", () => {
 
   if (isThereAnyError) return
 
-  if (step < 3) {
+  if (step < 4) {
     step = step + 1
   }
 
@@ -175,31 +188,45 @@ backButton.addEventListener("click", () => {
   changeStepActive()
 })
 
-function setStepActive(stepNumber: string, stepPage: string) {
-  const getAllSteps = document.querySelectorAll(
-    ".form-wrapper .form .fields-wrapper .field-steps"
-  )
-  const getAllStepsIndicator = document.querySelectorAll(".step-indicator-wrapper")
+function changePlanType() {
+  planType = planIndicator?.classList.contains("month") ? "month" : "year"
 
-  for (let page of getAllSteps) {
-    const pageStep = page as HTMLDivElement
+  let yearlyPlans = ["$90/yr", "$120/yr", "$150/yr"]
+  let monthlyPlans = ["$9/mo", "$12/mo", "$15/mo"]
 
-    if (page.classList.contains(stepPage)) {
-      pageStep.style.display = "flex"
-    } else {
-      pageStep.style.display = "none"
+  let switchPlanTypeValues = planType === "month" ? monthlyPlans : yearlyPlans
+
+  for (let plan of planCardButtons) {
+    const card = plan as HTMLButtonElement
+    const monthsFree = card.querySelector(".free-months") as HTMLParagraphElement
+
+    const getThisCardValue = card.querySelector(
+      ".plan-value"
+    ) as HTMLParagraphElement
+
+    if (card.classList.contains("arcade")) {
+      getThisCardValue.textContent = switchPlanTypeValues[0]
     }
-  }
 
-  for (let indicator of getAllStepsIndicator) {
-    const stepIndicator = indicator.querySelector(
-      ".step-indicator"
-    ) as HTMLSpanElement
+    if (card.classList.contains("advanced")) {
+      getThisCardValue.textContent = switchPlanTypeValues[1]
+    }
 
-    if (indicator.classList.contains(stepNumber)) {
-      stepIndicator?.classList.add("step-active")
+    if (card.classList.contains("pro")) {
+      getThisCardValue.textContent = switchPlanTypeValues[2]
+    }
+
+    if (card.classList.contains("active")) {
+      planCardSelected = {
+        ...planCardSelected,
+        value: getThisCardValue?.textContent as string,
+      }
+    }
+
+    if (planType === "year") {
+      monthsFree.style.display = "flex"
     } else {
-      stepIndicator?.classList.remove("step-active")
+      monthsFree.style.display = "none"
     }
   }
 }
@@ -208,7 +235,7 @@ planSwitch?.addEventListener("click", () => {
   planIndicator.classList.toggle("month")
   planIndicator.classList.toggle("year")
 
-  planType = planIndicator?.classList.contains("month") ? "month" : "year"
+  changePlanType()
 })
 
 function changeActivePlanCard(planCard: HTMLButtonElement, planName: string) {
@@ -280,6 +307,12 @@ addOnsCheckboxs.forEach((option) => {
 
     setActiveCheckboxPlan(optionCheckbox.value, optionElement)
   })
+})
+
+changePlanButton.addEventListener("click", () => {
+  step = 1
+
+  changeStepActive()
 })
 
 changeStepActive()

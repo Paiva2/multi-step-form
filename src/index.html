@@ -9,7 +9,8 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&amp;display=swap"
       rel="stylesheet"
     />
-    <script defer type="module" src="../build/index.js"></script>
+
+    <script type="module" src="../build/index.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multi-step Form</title>
   </head>
@@ -114,6 +115,7 @@
                     <span class="plan-info">
                       <p class="plan-name">Arcade</p>
                       <p class="plan-value">$9/mo</p>
+                      <p class="free-months">2 months free</p>
                     </span>
                   </button>
 
@@ -123,6 +125,7 @@
                     <span class="plan-info">
                       <p class="plan-name">Advanced</p>
                       <p class="plan-value">$12/mo</p>
+                      <p class="free-months">2 months free</p>
                     </span>
                   </button>
 
@@ -132,6 +135,7 @@
                     <span class="plan-info">
                       <p class="plan-name">Pro</p>
                       <p class="plan-value">$15/mo</p>
+                      <p class="free-months">2 months free</p>
                     </span>
                   </button>
                 </div>
@@ -165,9 +169,9 @@
                     <p class="add-on-value">+$1/mo</p>
                   </label>
 
-                  <label class="add-on storage-service">
+                  <label class="add-on larger-storage">
                     <div class="add-on-selection">
-                      <input type="checkbox" value="storage-service" />
+                      <input type="checkbox" value="larger-storage" />
 
                       <span class="add-on-description">
                         <p class="add-on-name">Larger storage</p>
@@ -178,9 +182,9 @@
                     <p class="add-on-value">+$2/mo</p>
                   </label>
 
-                  <label class="add-on profile-theme-service">
+                  <label class="add-on customizable-profile">
                     <div class="add-on-selection">
-                      <input type="checkbox" value="profile-theme-service" />
+                      <input type="checkbox" value="customizable-profile" />
 
                       <span class="add-on-description">
                         <p class="add-on-name">Customizable profile</p>
@@ -190,6 +194,48 @@
 
                     <p class="add-on-value">+$2/mo</p>
                   </label>
+                </div>
+              </div>
+
+              <div class="field-steps fourth-step">
+                <div class="form-title">
+                  <h1>Finishing up</h1>
+                  <p>Double-check everything looks OK before confirming.</p>
+                </div>
+
+                <div class="resume-wrapper">
+                  <div class="resume">
+                    <div class="selected-plan-resume">
+                      <div class="selected-plan">
+                        <p class="selected-plan-name">Pro (Monthly)</p>
+                        <button class="change-plan-button" type="button">
+                          Change
+                        </button>
+                      </div>
+
+                      <span class="selected-plan-value-resume"></span>
+                    </div>
+                  </div>
+
+                  <div class="resume-total-wrapper">
+                    <p class="total-per-resume">Total (per year)</p>
+                    <p class="total-resume">$17/mo</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-steps fifth-step">
+                <div class="form-title">
+                  <img
+                    class="thank-you-icon"
+                    src="./assets/public/icon-thank-you.svg"
+                  />
+                  <h1>Thank you!</h1>
+                  <p class="thank-you-msg">
+                    Thanks for confirming your subscription! We hope you have fun
+                    using our platform. If you ever need support, please feel free to
+                    email us at support@loremgaming.com.
+                  </p>
                 </div>
               </div>
             </div>

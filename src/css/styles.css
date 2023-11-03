@@ -128,7 +128,8 @@ a {
 
 .field-steps.second-step,
 .field-steps.third-step,
-.field-steps.second-fourth {
+.field-steps.fourth-step,
+.field-steps.fifth-step {
   display: none;
 }
 
@@ -145,7 +146,7 @@ a {
 
 .form-title p {
   font-size: 1rem;
-  line-height: 1.5625rem;
+  line-height: 1.25rem;
   color: hsl(231, 11%, 63%);
 }
 
@@ -200,6 +201,10 @@ input.error {
   font-weight: 500;
   font-size: 1rem;
   color: #9699ab;
+}
+
+.fields-wrapper {
+  height: 100%;
 }
 
 .bottom-buttons {
@@ -288,7 +293,7 @@ input.error {
   border-radius: 8px;
   cursor: pointer;
   min-width: 8.75rem;
-  min-height: 10.3125rem;
+  min-height: 11.5625rem;
   transition: all 0.2s;
 }
 
@@ -434,4 +439,133 @@ input.error {
   font-size: 0.9375rem;
   line-height: 1.25rem;
   color: hsl(243, 100%, 62%);
+}
+
+.resume-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9375rem;
+}
+
+.resume-total-wrapper {
+  display: flex;
+  gap: 1.5625rem;
+  box-sizing: border-box;
+  padding: 0.8125rem;
+  justify-content: space-between;
+}
+
+.resume {
+  border-radius: 8px;
+  background-color: hsl(231, 100%, 99%);
+  padding: 0.9375rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.selected-plan-resume {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px solid hsla(231, 11%, 63%, 0.2043);
+  padding-bottom: 10px;
+}
+
+.selected-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+}
+
+.selected-plan-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: hsl(213, 96%, 18%);
+  text-transform: capitalize;
+}
+
+.change-plan-button {
+  text-decoration: underline;
+  color: hsl(231, 11%, 63%);
+  font-size: 0.875rem;
+  cursor: pointer;
+  line-height: 1.25rem;
+}
+
+.change-plan-button:hover {
+  color: hsl(243, 100%, 62%);
+}
+
+.selected-plan-value-resume {
+  font-size: 1rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  color: hsl(213, 96%, 18%);
+}
+
+.add-ons-selected-resume {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.add-on-name-resume {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(231, 11%, 63%);
+  text-transform: capitalize;
+}
+
+.add-on-value-resume {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(213, 96%, 18%);
+}
+
+.total-per-resume {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(231, 11%, 63%);
+}
+
+.total-resume {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25em;
+  color: hsl(243, 100%, 62%);
+}
+
+.free-months {
+  display: none;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: hsl(213, 96%, 18%);
+  margin-top: 5px;
+}
+
+.thank-you-icon {
+  width: 5rem;
+  height: 5rem;
+}
+
+.field-steps.fifth-step {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.field-steps.fifth-step .form-title {
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.form-title .thank-you-msg {
+  line-height: 1.5625rem;
+  font-size: 1rem;
+  color: hsl(231, 11%, 63%);
 }
