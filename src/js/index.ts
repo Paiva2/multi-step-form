@@ -6,7 +6,16 @@ const nextButton = document.querySelector(".next-step-btn") as HTMLButtonElement
 const backButton = document.querySelector(".back-step") as HTMLButtonElement
 const confirmButton = document.querySelector(".confirm-btn") as HTMLButtonElement
 
-let step = 0
+const planCardButtons = document.querySelectorAll(".plan-card") as NodeList
+
+const planSwitch = document.querySelector(".plan-switch-btn")
+const planIndicator = planSwitch?.querySelector(
+  ".switch-indicator"
+) as HTMLSpanElement
+
+let step = 1
+let planType = planIndicator?.classList.contains("month") ? "month" : "year"
+let planCardSelected = "arcade"
 
 let firstStepFields = {
   nameField: {
@@ -88,6 +97,10 @@ function changeStepActive() {
     confirmButton.style.display = "none"
   }
 
+  if (step > 0) {
+    backButton.style.display = "flex"
+  }
+
   switch (step) {
     case 0:
       setStepActive("one", "first-step")
@@ -133,10 +146,6 @@ nextButton?.addEventListener("click", () => {
     step = step + 1
   }
 
-  if (step > 0) {
-    backButton.style.display = "flex"
-  }
-
   changeStepActive()
 })
 
@@ -180,3 +189,35 @@ function setStepActive(stepNumber: string, stepPage: string) {
     }
   }
 }
+
+planSwitch?.addEventListener("click", () => {
+  planIndicator.classList.toggle("month")
+  planIndicator.classList.toggle("year")
+
+  planType = planIndicator?.classList.contains("month") ? "month" : "year"
+})
+
+function changeActivePlanCard(planCard: HTMLButtonElement, planName: string) {
+  planCard.addEventListener("click", () => {
+    planCardSelected = planName
+
+    for (let card of planCardButtons) {
+      const singleCard = card as HTMLButtonElement
+
+      if (singleCard.classList.contains(planCardSelected)) {
+        singleCard.classList.add("active")
+      } else {
+        singleCard.classList.remove("active")
+      }
+    }
+  })
+}
+
+planCardButtons.forEach((card) => {
+  const cardButton = card as HTMLButtonElement
+  const planName = cardButton.querySelector(".plan-name") as HTMLParagraphElement
+
+  changeActivePlanCard(cardButton, planName.textContent!.toLowerCase())
+})
+
+changeStepActive()
