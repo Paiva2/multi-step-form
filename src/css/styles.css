@@ -471,7 +471,7 @@ input.error {
   width: 100%;
   justify-content: space-between;
   border-bottom: 1px solid hsla(231, 11%, 63%, 0.2043);
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
 }
 
 .selected-plan {
@@ -568,4 +568,141 @@ input.error {
   line-height: 1.5625rem;
   font-size: 1rem;
   color: hsl(231, 11%, 63%);
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+    padding: 0;
+    min-height: 100%;
+    gap: 0;
+    height: 100vh;
+    justify-content: initial;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  .field-steps {
+    gap: 1.25rem;
+  }
+
+  .form-container {
+    padding: 0;
+    align-items: initial;
+  }
+
+  .side-steps {
+    width: 100%;
+    min-height: auto;
+    background-image: url("../assets/public/bg-sidebar-mobile.svg");
+    border-radius: 0;
+    min-height: 10.75rem;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.9375rem;
+  }
+
+  .form-wrapper {
+    box-sizing: border-box;
+    background-color: #fff;
+    width: 95%;
+    margin-top: -80px;
+    z-index: 100;
+    border-radius: 10px;
+    box-shadow: 0 25px 40px -20px #00000018;
+  }
+
+  .step-indicator-wrapper {
+    height: 2.5rem;
+  }
+
+  .step-texts {
+    display: none;
+  }
+
+  .bottom-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 -8px 40px -20px #00000018;
+    box-sizing: border-box;
+    padding: 1.25rem;
+  }
+
+  .form-wrapper {
+    padding: 1.5625rem;
+  }
+
+  .form-title h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-label {
+    font-size: 0.75rem;
+  }
+
+  .form-fields {
+    gap: 0.9375rem;
+  }
+
+  .form-fields input {
+    height: 2.625rem;
+    font-size: 0.875rem;
+  }
+
+  .next-step-btn {
+    height: 2.625rem;
+    min-width: 6.5625rem;
+  }
+
+  .plans-wrapper {
+    overflow-x: auto;
+    gap: 0.5rem;
+  }
+
+  .plans-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .add-on-name {
+    font-size: 0.875rem;
+  }
+
+  .add-on-benefit,
+  .add-on-value {
+    font-size: 0.75rem;
+  }
+
+  .add-on {
+    padding: 0.9375rem 0.9375rem;
+  }
+
+  .add-on-description {
+    gap: 0;
+  }
+
+  .selected-plan-name {
+    font-size: 0.875rem;
+  }
+
+  .selected-plan-value-resume {
+    font-size: 0.875rem;
+  }
+
+  .total-resume {
+    font-size: 1rem;
+  }
+
+  .field-steps.fifth-step .form-title {
+    font-size: 1.25rem;
+    padding: 3.4375rem 0.9375rem;
+  }
+
+  .thank-you-icon {
+    width: 3.4375rem;
+    height: 3.4375rem;
+  }
 }

@@ -16,7 +16,7 @@ import { setErrorsIfTheresEmptyField } from "./utils/inputErrorHandling/index.js
 import { setUpAddOnsResume } from "./utils/resume/index.js"
 import { setStepActive } from "./utils/stepControl/index.js"
 
-let step = 0
+let step = 1
 
 let firstStepFields = {
   nameField: {
@@ -55,6 +55,14 @@ function setUpResumePage() {
   const selectedPlanValue = document.querySelector(
     ".selected-plan-value-resume"
   ) as HTMLSpanElement
+
+  const getResume = document.querySelector(".selected-plan-resume") as HTMLDivElement
+
+  if (!addOnsSelected.length) {
+    getResume.style.borderColor = "transparent"
+  } else {
+    getResume.style.borderColor = "hsla(231, 11%, 63%, 0.2043)"
+  }
 
   const totalResume = document.querySelector(".total-resume") as HTMLSpanElement
 
@@ -122,13 +130,16 @@ function changeStepActive() {
 
     case 4: {
       setStepActive("fifth", "fifth-step")
+
       const containLastStepActive = document.querySelector(
         ".step-indicator-wrapper.four"
       )
 
-      nextButton.style.display = "none"
-      confirmButton.style.display = "none"
-      backButton.style.display = "none"
+      const bottomButtonsWrapper = document.querySelector(
+        ".bottom-buttons"
+      ) as HTMLSpanElement
+
+      bottomButtonsWrapper.style.display = "none"
 
       containLastStepActive
         ?.querySelector(".step-indicator")
@@ -188,6 +199,28 @@ backButton.addEventListener("click", () => {
   changeStepActive()
 })
 
+function renderSelectedSwitchLabel() {
+  const monthLabel = document.querySelector(
+    ".assinature-plan.month"
+  ) as HTMLSpanElement
+
+  const yearLabel = document.querySelector(
+    ".assinature-plan.year"
+  ) as HTMLSpanElement
+
+  if (planType === "year") {
+    yearLabel.classList.add("active")
+  } else {
+    yearLabel.classList.remove("active")
+  }
+
+  if (planType === "month") {
+    monthLabel.classList.add("active")
+  } else {
+    monthLabel.classList.remove("active")
+  }
+}
+
 function changePlanType() {
   planType = planIndicator?.classList.contains("month") ? "month" : "year"
 
@@ -229,6 +262,8 @@ function changePlanType() {
       monthsFree.style.display = "none"
     }
   }
+
+  renderSelectedSwitchLabel()
 }
 
 planSwitch?.addEventListener("click", () => {
@@ -237,6 +272,8 @@ planSwitch?.addEventListener("click", () => {
 
   changePlanType()
 })
+
+renderSelectedSwitchLabel()
 
 function changeActivePlanCard(planCard: HTMLButtonElement, planName: string) {
   planCard.addEventListener("click", () => {
